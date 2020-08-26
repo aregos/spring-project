@@ -20,6 +20,13 @@ public interface PersonService {
     void add(@Valid PersonView person);
 
     /**
+     * Получить информацию о человеке по id
+     *
+     * @param id
+     */
+    PersonView getById(@Valid Long id);
+
+    /**
      * Получить список людей
      *
      * @return {@Person}

@@ -3,26 +3,33 @@ CREATE TABLE IF NOT EXISTS Person (
     version    INTEGER NOT NULL     COMMENT 'Служебное поле hibernate',
     first_name VARCHAR(50) NOT NULL COMMENT 'Имя',
     age        INTEGER  NOT NULL    COMMENT 'Возраст'
+) COMMENT='Человек';
+
+CREATE TABLE IF NOT EXISTS Organization
+(
+    id       INTEGER COMMENT 'Уникальный идентификатор' PRIMARY KEY AUTO_INCREMENT,
+    name     VARCHAR(50) NOT NULL,
+    version  INTEGER,
+    fullName VARCHAR(50),
+    address  VARCHAR(50),
+    inn      INTEGER,
+    kpp      INTEGER,
+    phone    INTEGER,
+    isActive BOOLEAN
 );
-COMMENT ON TABLE Person IS 'Человек';
 
-CREATE TABLE IF NOT EXISTS House (
-    id         INTEGER              COMMENT 'Уникальный идентификатор' PRIMARY KEY AUTO_INCREMENT ,
-    version    INTEGER NOT NULL     COMMENT 'Служебное поле hibernate',
-    address    VARCHAR(50) NOT NULL COMMENT 'Адрес'
+CREATE TABLE IF NOT EXISTS Person_Organization
+(
+    person_id       INTEGER NOT NULL,
+    organization_id INTEGER NOT NULL,
+
+    PRIMARY KEY (person_id, organization_id)
 );
-COMMENT ON TABLE House IS 'Дом';
 
-CREATE TABLE IF NOT EXISTS Person_House (
-    person_id   INTEGER  NOT NULL COMMENT 'Уникальный идентификатор человека',
-    house_id    INTEGER  NOT NULL COMMENT 'Уникальный идентификатор дома',
+ALTER TABLE Person_Organization ADD INDEX (organization_id);
+ALTER TABLE Person_Organization
+    ADD FOREIGN KEY (organization_id) REFERENCES Organization (id);
 
-    PRIMARY KEY (person_id, house_id)
-);
-COMMENT ON TABLE Person_House IS 'join-таблица для связи человека и дома';
-
-CREATE INDEX IX_Person_House_Id ON Person_House (house_id);
-ALTER TABLE Person_House ADD FOREIGN KEY (house_id) REFERENCES House(id);
-
-CREATE INDEX IX_House_Person_Id ON Person_House (person_id);
-ALTER TABLE Person_House ADD FOREIGN KEY (person_id) REFERENCES Person(id);
+ALTER TABLE Person_Organization ADD INDEX (person_id);
+ALTER TABLE Person_Organization
+    ADD FOREIGN KEY (person_id) REFERENCES Person (id);

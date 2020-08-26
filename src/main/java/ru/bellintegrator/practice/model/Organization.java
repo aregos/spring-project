@@ -1,24 +1,18 @@
 package ru.bellintegrator.practice.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Version;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Дом
+ * Организация
  */
-@Entity(name = "House")
-public class House {
+@Entity(name = "Organization")
+public class Organization {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id")
+    @Column(name = "id")
     private Long id;
 
     /**
@@ -33,7 +27,7 @@ public class House {
     @Column(name = "address", length = 50, nullable = false)
     private String address;
 
-    @ManyToMany(mappedBy = "houses")
+    @OneToMany(mappedBy = "organization")
     private Set<Person> persons;
 
     public Long getId() {

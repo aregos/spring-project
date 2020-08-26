@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $("#ping").click(function () {
         $.ajax({
-            url:"/ping",
+            url:"api/ping",
             type:"GET",
             contentType:"application/json; charset=utf-8",
             dataType:"text",
@@ -21,7 +21,7 @@ $(document).ready(function () {
         console.log('PER', person);
 
         $.ajax({
-            url:"/person",
+            url:"api/user/add",
             type:"POST",
             data: JSON.stringify(person),
             contentType:"application/json; charset=utf-8",
@@ -35,7 +35,7 @@ $(document).ready(function () {
 
     $("#personList").click(function () {
         $.ajax({
-            url:"/person",
+            url:"/api/user/list",
             type:"GET",
             contentType:"application/json; charset=utf-8",
             dataType:"json",

@@ -12,7 +12,6 @@ import javax.validation.constraints.Size;
 @ApiModel(description = "Человек")
 public class PersonView {
 
-    @NotEmpty
     @ApiModelProperty(value = "Уникальный идентификатор", hidden = true, example = "1")
     public String id;
 

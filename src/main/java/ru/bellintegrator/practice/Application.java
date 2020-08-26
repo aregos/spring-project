@@ -42,16 +42,6 @@ public class Application {
         return sessionLocaleResolver;
     }
 
-    @Bean
-    public Docket postApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("persons")
-                .apiInfo(apiInfo())
-                .select()
-                .paths(regex("/person.*"))
-                .build();
-    }
-
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Spring REST Sample with Swagger")

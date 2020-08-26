@@ -1,16 +1,6 @@
 package ru.bellintegrator.practice.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-import javax.persistence.Version;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,7 +13,7 @@ public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id")
+    @Column(name = "id")
     private Long id;
 
     /**
@@ -45,18 +35,18 @@ public class Person {
     @Column(name = "age", nullable = false)
     private int age;
 
-    @ManyToMany(
+    @ManyToOne(
             cascade = {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
             }
     )
     @JoinTable(
-            name = "Person_House",
+            name = "Person_Organization",
             joinColumns = @JoinColumn(name = "person_id"),
-            inverseJoinColumns = @JoinColumn(name = "house_id")
+            inverseJoinColumns = @JoinColumn(name = "organization_id")
     )
-    private Set<House> houses;
+    private Organization organization;
 
     /**
      * Конструктор для hibernate
@@ -90,21 +80,18 @@ public class Person {
         this.age = age;
     }
 
-    public Set<House> getHouses() {
-        if (houses == null) {
-            houses = new HashSet<>();
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void addOrganization(Organization organization) {
+        this.organization = organization;
+    }
+
+    public void removeOrganization(Organization organization) {
+        if (this.organization == organization) {
+            this.organization = null;
         }
-        return houses;
-    }
-
-    public void addHouse(House house) {
-        getHouses().add(house);
-        house.getPersons().add(this);
-    }
-
-    public void removeHouse(House house) {
-        getHouses().remove(house);
-        house.getPersons().remove(this);
     }
 
 }

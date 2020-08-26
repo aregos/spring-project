@@ -1,5 +1,6 @@
 package ru.bellintegrator.practice.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,16 @@ public class PersonServiceImpl implements PersonService {
     public void add(PersonView view) {
         Person person = new Person(view.name, view.age);
         dao.save(person);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional
+    public PersonView getById(Long id) {
+        Person person = dao.loadById(id);
+        return mapperFacade.map(person, PersonView.class);
     }
 
     /**

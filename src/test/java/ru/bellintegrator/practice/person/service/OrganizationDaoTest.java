@@ -10,8 +10,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bellintegrator.practice.Application;
-import ru.bellintegrator.practice.dao.house.HouseDao;
-import ru.bellintegrator.practice.model.House;
+import ru.bellintegrator.practice.dao.organization.OrganizationDao;
+import ru.bellintegrator.practice.model.Organization;
 import ru.bellintegrator.practice.model.Person;
 
 import java.util.HashSet;
@@ -23,30 +23,30 @@ import java.util.Set;
 @WebAppConfiguration(value = "src/main/resources")
 @Transactional
 @DirtiesContext
-public class HouseDaoTest {
+public class OrganizationDaoTest {
 
     @Autowired
-    private HouseDao houseDao;
+    private OrganizationDao organizationDao;
 
     @Test
     public void test() {
-        House house = new House();
+        Organization organization = new Organization();
         Set<Person> list = new HashSet<>();
-        house.setAddress("Address");
+        organization.setAddress("Address");
         Person person = new Person("One", 1);
-        person.addHouse(house);
-        house.setPersons(list);
+        person.addOrganization(organization);
+        organization.setPersons(list);
         list.add(person);
-        houseDao.save(house);
+        organizationDao.save(organization);
 
-        List<House> houses = houseDao.all();
-        Assert.assertNotNull(houses);
+        List<Organization> organizations = organizationDao.all();
+        Assert.assertNotNull(organizations);
 
-        person.addHouse(house);
+        person.addOrganization(organization);
 
-        Assert.assertFalse(houses.isEmpty());
+        Assert.assertFalse(organizations.isEmpty());
 
-        Set<Person> persons = houses.get(1).getPersons();
+        Set<Person> persons = organizations.get(1).getPersons();
 
         Assert.assertNotNull(persons);
         Assert.assertEquals(1, persons.size());
@@ -54,8 +54,8 @@ public class HouseDaoTest {
         Person person1 = new Person("Two", 2);
         list.add(person1);
 
-        houses = houseDao.all();
-        persons = houses.get(1).getPersons();
+        organizations = organizationDao.all();
+        persons = organizations.get(1).getPersons();
         Assert.assertNotNull(person);
         Assert.assertEquals(1, persons.size());
     }
